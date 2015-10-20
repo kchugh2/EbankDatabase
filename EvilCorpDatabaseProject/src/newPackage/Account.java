@@ -37,10 +37,11 @@ public class Account {
 		Scanner keyboard = new Scanner(System.in);		
 		System.out.println("Enter the name on the account ");
 		setName(keyboard.nextLine());
-		System.out.println("Enter Account Number");
-		setAccountNumber(keyboard.nextLong());
+		/*System.out.println("Enter Account Number");
+		setAccountNumber(keyboard.nextLong());   ACCOUNT NUMBER IS SET BY SEQUENCE*/ 
 		System.out.println("Enter the Account Balance");
 		setAccountBalance(keyboard.nextDouble());
+		keyboard.nextLine();
 		System.out.println("Enter the SSN");
 		setSsn(keyboard.nextLine());
 	}

@@ -5,21 +5,22 @@ import newPackage.Account;
 
 public class Transaction {
 
-	private String transactionID;
+	private int transactionID;
 	private long accountNum;
 	private double amount;
 	private int choice;
 	private String type;
+	private int code;
 	private GregorianCalendar transactionDate = new GregorianCalendar();
 	
 	
 	
-	public String getTransactionID() {
+	public int getTransactionID() {
 		return transactionID;
 	}
 
 
-	public void setTransactionID(String transactionID) {
+	public void setTransactionID(int transactionID) {
 		this.transactionID = transactionID;
 	}
 	
@@ -56,6 +57,14 @@ public class Transaction {
 	public GregorianCalendar getTransactionDate() {
 		return transactionDate;
 	}
+	public int getCode() {
+		return code;
+	}
+
+
+	public void setCode(int code) {
+		this.code = code;
+	}
 
 
 	public void setTransactionDate(GregorianCalendar transactionDate) {
@@ -67,23 +76,23 @@ public class Transaction {
 		return choice;
 	}
 
-	public String getChoicetype() {
+	public String getChoicetype(int choice) {
 		String returner;
 		switch (choice) 
 		{
 		
 			case 1 :
-				returner= "Check";
+				returner= "CHECK";
 							
 			break;
 			
-			case 2 :returner ="Debit Card";
+			case 2 :returner ="DEBIT CARD";
 			break;
 			
-			case 3 :returner= "Deposit";
+			case 3 :returner= "DEPOSIT";
 			break;
 				
-			case 4 : returner= "Withdrawal";
+			case 4 : returner= "WITHDRAWAL";
 			break;
 			
 			default : returner= null;	
@@ -98,10 +107,11 @@ public class Transaction {
 		this.choice = choice;
 	}
 
-	public Transaction()
+	public void NewTransaction(long accountnum)
 	{
 		Scanner keyboard = new Scanner(System.in);
 		int escape = 1;
+		setAccountNum(accountnum);
 		System.out.println("Enter 1 for Check\nEnter2 for Debit Card\nEnter 3 for Deposit\nEnter 4 for Withdrawal");
 		
 		do{
@@ -113,9 +123,11 @@ public class Transaction {
 				System.out.println("Invalid Transaction Choice! Try Again!");
 				escape = 0;
 					}
+			setType(getChoicetype(userChoice));
 		}while(escape==0);
+		
 		try
-		{
+		{		
 		System.out.println("Enter the amount");
 		setAmount(keyboard.nextDouble());
 		System.out.println("Enter the Transaction year (yyyy)");
@@ -131,16 +143,21 @@ public class Transaction {
 		
 	}
 	
-	public Transaction(int a)
+	public Transaction()
 	{
 		
 		
 		setAmount(0);
 		setChoice(0);
-		
+		setCode(0);
+		setAccountNum(0);
+		setTransactionID(0);
 		setTransactionDate(null);
 			
 	}
+
+
+	
 
 
 	
