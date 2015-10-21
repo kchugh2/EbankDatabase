@@ -1,4 +1,5 @@
 package newPackage;
+import java.sql.SQLException;
 import java.util.*;
 
 import newPackage.Account;
@@ -8,6 +9,7 @@ import newPackage.Transaction;
 
 public class TransactionProcessor {
 	private Account returnAccount;
+	private databaseMethods dmethods = new databaseMethods();
 	
 	public Account getReturnAccount() {
 		return returnAccount;
@@ -62,6 +64,52 @@ public class TransactionProcessor {
 		
 	}
 	
+public void transfer(long senderr, long receiverr,double amount) throws SQLException{
+	
+	int overdrawCounter =0;
+	double amt1,amt2;
+	amt1=amount;
+	amt2=amount;
+	
+	Account sender = dmethods.pullAccounts(senderr);
+	System.out.println("\nSenders Balance1:" + sender.getAccountBalance());
+	double balancesender = sender.getAccountBalance();
+	balancesender=balancesender-amt1;
+	sender.setAccountBalance(balancesender);
+	dmethods.pushAccount(sender);
+	System.out.println("\nSenders balance post transaction" + balancesender);
+
+
+	Account receiver = dmethods.pullAccounts(receiverr);
+	double balancereceiver = receiver.getAccountBalance();
+	balancereceiver+=amt2;
+	receiver.setAccountBalance(balancereceiver);
+	dmethods.pushAccount(receiver);
+	System.out.println("\nReceivers balance post transaction" + balancereceiver);
+	
+	
+	
+	
+		
+				
+			
+							
+			
+					
+	
+			
+			
+	
+	
+	
+	//sender.setAccountBalance(balancesender);
+	//receiver.setAccountBalance(balancereceiver);
+	
+	
+	
+}
+
+	
 public TransactionProcessor(Account A, Transaction[] T,int transactionCounter)
 {
 	Scanner keyboard = new Scanner(System.in);
@@ -105,6 +153,10 @@ public TransactionProcessor(Account A, Transaction[] T,int transactionCounter)
 	System.out.println("All transactions Processed - The current balance is "+ balance);
 	
 	setReturnAccount(A);
+}
+
+public TransactionProcessor() {
+	// TODO Auto-generated constructor stub
 }
 
 

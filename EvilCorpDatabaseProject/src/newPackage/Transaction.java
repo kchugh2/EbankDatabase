@@ -11,6 +11,7 @@ public class Transaction {
 	private int choice;
 	private String type;
 	private int code;
+	private String strDate;
 	private GregorianCalendar transactionDate = new GregorianCalendar();
 	
 	
@@ -76,7 +77,7 @@ public class Transaction {
 		return choice;
 	}
 
-	public String getChoicetype(int choice) {
+	public String getChoicetype() {
 		String returner;
 		switch (choice) 
 		{
@@ -123,23 +124,31 @@ public class Transaction {
 				System.out.println("Invalid Transaction Choice! Try Again!");
 				escape = 0;
 					}
-			setType(getChoicetype(userChoice));
+			setType(getChoicetype());
 		}while(escape==0);
 		
 		try
 		{		
 		System.out.println("Enter the amount");
 		setAmount(keyboard.nextDouble());
+		keyboard.nextLine();
 		System.out.println("Enter the Transaction year (yyyy)");
 		int yyyy = keyboard.nextInt();
+		keyboard.nextLine();
+		System.out.println("Enter the Transaction month (MON)");
+		String MON = keyboard.nextLine();
+		
 		System.out.println("Enter the Transaction month (mm)");
 		int mm = keyboard.nextInt();
 		System.out.println("Enter the Transaction day (dd)");
 		int dd = keyboard.nextInt();
+		System.out.println(MON);
+		String day = (dd+"-"+ MON +"-"+yyyy);
+		setStrDate(day);
 		GregorianCalendar temporaryDate= new GregorianCalendar(yyyy,mm,dd);
 		setTransactionDate(temporaryDate);
-		} catch(InputMismatchException e){System.out.println("Invalid Datatypes Entered");}
-	
+		} catch(Exception e){System.out.println(e.getMessage());}
+	System.out.println(getStrDate());
 		
 	}
 	
@@ -154,6 +163,16 @@ public class Transaction {
 		setTransactionID(0);
 		setTransactionDate(null);
 			
+	}
+
+
+	public String getStrDate() {
+		return strDate;
+	}
+
+
+	public void setStrDate(String strDate) {
+		this.strDate = strDate;
 	}
 
 

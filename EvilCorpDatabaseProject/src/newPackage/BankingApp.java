@@ -30,7 +30,7 @@ public static void main(String[] args) throws SQLException
 	//ArrayList<TransactionHistory> history = new ArrayList<TransactionHistory>();
 	int accEscape = 1,tEscape=1,alltEscape=1,transactionCounter=0,accountBuilderEscape=1,addTransactionIndex=0;
 	int i =0, l = 0,closeAcc,cont;
-	int accountCounter=0;
+	int accountCounter=0,transactionsWanted=1;
 	long closeAccNum;
 	long accnumber = 0 ;
 	boolean accountNumberMatch=false,accountRemovedFlag;
@@ -74,35 +74,26 @@ public static void main(String[] args) throws SQLException
 		accEscape = keyboard.nextInt();
 		
 	}
-	
-	do
+	System.out.println("Press 1 to perform transactions today. \nPress 0 to escape");
+	transactionsWanted = keyboard.nextInt();
+	while(transactionsWanted!=0&&alltEscape!=0)
 	{
-		/*
-		int accountIndex=-1;
-		System.out.println("Name\tAccount Number\tAccount Balance");
-		for(int k = 0; k<accounts.size();k++)
-		{
-			System.out.println(accounts.get(k).getName()+"\t"+accounts.get(k).getAccountNumber()+"\t\t"+accounts.get(k).getAccountBalance());
-			
-		}*/
 		
-		/*
 		do
 		{
-			System.out.println("Enter the account number associated with the Transactions to be entered");
-			accnumber = keyboard.nextLong();
-			
-			for(int j = 0; j< accounts.size(); j++)
-			{
-			Account finder = accounts.get(j);
-			if(finder.getAccountNumber()==accnumber)
-				accountIndex=j;
-			}
-		if (accountIndex==-1)
-		System.out.println("Account not found! Try again!");
-		} while(accountIndex == -1); */
+				
+		Account transactionAccount = new Account();
 		
-		Account transactionAccount = database.pullAccounts(accnumber);
+			
+		do
+			{
+			System.out.println("enter an account number associated with the transactions");
+			accnumber = keyboard.nextInt();
+			transactionAccount = database.pullAccounts(accnumber);
+			if (transactionAccount.getAccountNumber()==0)
+				System.out.println("Account Not Found Reenter Account Detals");
+			
+			}while(transactionAccount.getAccountNumber()==0);
 			
 		addTransactionIndex=0;
 		
@@ -142,7 +133,7 @@ public static void main(String[] args) throws SQLException
 	
 		
 		}while(alltEscape!=0);
-	
+	}
 	/*
 	 
 	 do{
@@ -211,6 +202,82 @@ public static void main(String[] args) throws SQLException
 
 }
 */
+	Account checkAccount = new Account();
+	long sender=-1, receiver =-1;
+	int transfercont=1;
+	
+	System.out.println("Press 1 to make a transfer ? Press 0 to escape");
+	transfercont = keyboard.nextInt();
+	while(transfercont!=0)
+	{
+	
+		if (transfercont == 0)
+			break;
+	
+	
+			do
+			{
+
+			keyboard.nextLine();
+			System.out.println("Enter Account number to transfer FROM");
+			sender = keyboard.nextLong();
+			keyboard.nextLine();
+			checkAccount = database.pullAccounts(sender);
+			//System.out.println(checkAccount.getAccountNumber());
+			if (checkAccount.getAccountNumber()==0)
+			System.out.println("Account Not Found Reenter Account Details");		
+			}   while(checkAccount.getAccountNumber()==0);
+			
+			do
+			{
+				keyboard.nextLine();
+				System.out.println("Enter Account number to transfer TO");
+				receiver = keyboard.nextLong();
+				keyboard.nextLine();
+				checkAccount = database.pullAccounts(receiver);
+				if (checkAccount.getAccountNumber()==0)
+				System.out.println("Account Not Found Reenter Account Detals");
+	
+			}while(checkAccount.getAccountNumber()==0);
+		
+	
+	
+	TransactionProcessor  tp = new TransactionProcessor();
+	System.out.println("Enter the amount to be transferred");
+	double amount = keyboard.nextDouble();
+	keyboard.nextLine();
+	tp.transfer(sender,receiver , amount);
+	
+	System.out.println("Press 1 to make more transfers \n Press 0 to escape");
+	transfercont = keyboard.nextInt();
+	}
+	
+	int tcont =0;
+	do{
+	System.out.println("Transaction History");
+	System.out.println("Press 1 to view all transactions\tPress 2 to view transactions associated with a certain account\nPRess 0 to escape ");
+	int tchoice= keyboard.nextInt();
+	if(tchoice == 1 )
+		{
+		database.pullAllTransactions(); 
+		tcont =1;
+		}
+	else if (tchoice == 2)
+		{
+		System.out.println("Enter the account number associated with transaction history to be viewed ");
+		int acc = keyboard.nextInt();
+		database.pullTransaction(acc);
+		tcont=1;
+		}
+	else if (tchoice ==0)
+		break;
+	
+	else 
+		System.out.println("Invalid input ");
+	}while(tcont==0)	;
+	
+	
+	
 }
 }
 
